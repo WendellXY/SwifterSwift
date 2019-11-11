@@ -73,6 +73,36 @@ public extension String {
     }
     #endif
 
+        private func substringArray() -> [Substring] {
+        self.split(separator: " ")
+    }
+    
+    /// Return single-character string array
+    ///
+    ///     "Hello " -> ["H", "e", "l", "l", "o", " "]
+    ///     "Hi" -> ["H", "i"]
+    public func stringArray() -> [String] {
+        var output = [String]()
+        let substringArray = self.substringArray()
+        
+        substringArray.forEach { output.append(String($0)) }
+        return output
+    }
+        /// Return titled format string
+    ///
+    ///     "hello world" -> "Hello World"
+    ///     "a b c d " -> "A B C D "
+    ///
+    mutating func titled() -> String {
+        var output: String = ""
+        var strArray = stringArray()
+        for i in strArray.indices {
+            output += strArray[i].firstCharacterUppercased() + " "
+        }
+        
+        return output
+    }
+    
     /// SwifterSwift: Check if string contains one or more emojis.
     ///
     ///		"Hello 😀".containEmoji -> true
