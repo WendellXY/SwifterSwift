@@ -5,6 +5,45 @@ The changelog for **SwifterSwift**. Also see the [releases](https://github.com/S
 ## Upcoming Release
 
 ### Added
+- **RangeReplaceableCollection**:
+  - `subscript(offset:)` and `subscript(range:)` to access and replace elements by the index offsets. [#826](https://github.com/SwifterSwift/SwifterSwift/pull/826) by [guykogus](https://github.com/guykogus)
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+---
+
+## [v5.2.0](https://github.com/SwifterSwift/SwifterSwift/releases/tag/5.2.0)
+
+### Added
+
+- **CATransform3D**:
+  - `identity`, `isIdentity`, `init(translationX:y:z:)`, `init(scaleX:y:z:)`, `init(rotationAngle:x:y:z:)`, `translatedBy(x:y:z:)`, `scaledBy(x:y:z:)`, `rotated(by:x:y:z:)`, `inverted()`, `concatenating(_:)`, `translateBy(x:y:z:)`, `scaleBy(x:y:z:)`, `rotate(by:x:y:z:)`, `invert()`, `concatenate(_:)`, `isAffine` and `affineTransform()`. Also conforms to `Codable` and `Equatable`. [#819](https://github.com/SwifterSwift/SwifterSwift/pull/819) by [guykogus](https://github.com/guykogus)
+- **CGAffineTransform**:
+  - `transform3D()`. [#819](https://github.com/SwifterSwift/SwifterSwift/pull/819) by [guykogus](https://github.com/guykogus)
+- **NotificationCenter**:
+  - `observeOnce(forName:object:queue:using:)` for observing a single posting of a notification. [#812](https://github.com/SwifterSwift/SwifterSwift/pull/812) by [guykogus](https://github.com/guykogus)
+- **Optional**:
+  - Conform to `Equatable` when `Wrapped` is `RawRepresentable` and its `RawValue` is `Equatable`. [#804](https://github.com/SwifterSwift/SwifterSwift/pull/804) by [guykogus](https://github.com/guykogus)
+- **CoreLocation**:
+  - Added `Array where Element: CLLocation extension` and added `distance(unitLength:)` function. [#799](https://github.com/SwifterSwift/SwifterSwift/pull/799) by [trevorphillips](https://github.com/trevorphillips)
+- **Decodable**:
+  - Added `init?(data:decoder:)` to decode `Decodable` (Codable) type models. [#797](https://github.com/SwifterSwift/SwifterSwift/pull/797) by [Mustafa GUNES](https://github.com/mustafagunes).
+- **CLVisit**:
+  - Created `CLVisit Extension` and added `location` property. [#792](https://github.com/SwifterSwift/SwifterSwift/pull/792) by [trevorphillips](https://github.com/trevorphillips)
+- **EdgeInsets**:
+  - Unified `UIEdgeInsets` and `NSEdgeInsets` into a single typealias, `EdgeInsets`, similar to what we do with `UIColor` and `NSColor`. For the tests to function it was required to add the static `zero` property to `NSEdgeInsets` and to make it conform to `Equatable`. [#785](https://github.com/SwifterSwift/SwifterSwift/pull/785) by [guykogus](https://github.com/guykogus)
+- **Array**:
+  - Added `sorted(like:keyPath:)` to sort an array like another array based on a key path. [#772](https://github.com/SwifterSwift/SwifterSwift/pull/772) by [MaxHaertwig](https://github.com/maxhaertwig).
+- **MKMapView**:
+  - Added `zoom(to:meter:edgePadding:animated:)` method to zoom multiple `MKMapView` coordinates. [#723](https://github.com/SwifterSwift/SwifterSwift/pull/723) by [Mustafa GUNES](https://github.com/mustafagunes).
 - **Dictionary**:
   - Added `init(grouping:by:)` to initialize a dictionary by grouping sequence from a hashable `KeyPath`. [#751](https://github.com/SwifterSwift/SwifterSwift/pull/751) by [mmdock](https://github.com/mmdock)
 - **RangeReplaceableCollection**:
@@ -18,33 +57,62 @@ The changelog for **SwifterSwift**. Also see the [releases](https://github.com/S
 - **UIBarButtonItem**:
   - Added `flexibleSpace` and `fixedSpace(width:)` extensions to UIBarButtonItem to simplify the creation of spacers. [#728](https://github.com/SwifterSwift/SwifterSwift/pull/728) by [MaxHaertwig](https://github.com/maxhaertwig).
 - **UIImage**:
+  - Added missing test for `compressedData(quality:)`. [#786](https://github.com/SwifterSwift/SwifterSwift/pull/786) by [thisIsTheFoxe](https://github.com/thisisthefoxe)
   - Added `withBackgroundColor(_:)` to specify a background color for a partially transparent image. [#721](https://github.com/SwifterSwift/SwifterSwift/pull/721) by [MaxHaertwig](https://github.com/maxhaertwig).
   - Added `init?(base64String:)` to create a `UIImage` from a base-64 `String`. [#741](https://github.com/SwifterSwift/SwifterSwift/issues/741) by [@thisIsTheFoxe](https://github.com/thisisthefoxe)
+  - Added `pngBase64String()`, `jpegBase64String(compressionQuality:)` which return a Base 64 `String` representation of the `UIImage`s PNG or JPEG data. [#747](https://github.com/SwifterSwift/SwifterSwift/pull/747) by [Moritz Sternemann](https://github.com/moritzsternemann).
   - Added `init?(url:scale:)` to initialize a `UIImage` with a given url and scale factor. [#753](https://github.com/SwifterSwift/SwifterSwift/pull/753) by [mmdock](https://github.com/mmdock)
 - **CAGradientLayer**:
   - Added `init(colors:locations:startPoint:endPoint:type:)` convenience initializer. [#726](https://github.com/SwifterSwift/SwifterSwift/pull/726) by [JayMehta97](https://github.com/JayMehta97).
 - **Sequence**:
   - Added `sum(for:)` to sum up an `AdditiveArithmetic` property, referenced by `KeyPath`, of all elements in a sequence. [#736](https://github.com/SwifterSwift/SwifterSwift/pull/736) by [Moritz Sternemann](https://github.com/moritzsternemann).
+  - Added `sorted(by:and:)` and `sorted(by:and:and:)` to obtain a sorted sequence based on multiple key paths. [#796](https://github.com/SwifterSwift/SwifterSwift/pull/796) by [MaxHaertwig](https://github.com/maxhaertwig).
+  - Added `map(by:)` to map the sequence elements by a given key path. [#763](https://github.com/SwifterSwift/SwifterSwift/pull/763) by [Roman Podymov](https://github.com/RomanPodymov).
+  - Added `compactMap(by:)` to map the sequence elements by a given key path to the non-nil elements array. [#766](https://github.com/SwifterSwift/SwifterSwift/pull/766) by [Roman Podymov](https://github.com/RomanPodymov).
+  - Added `filter(by:)` to filter the sequence elements by a given boolean key path. [#771](https://github.com/SwifterSwift/SwifterSwift/pull/771) by [Roman Podymov](https://github.com/RomanPodymov).
+- **MutableCollection**:
+  - Added `assignToAll(value:keyPath:)` to assign given value to field `keyPath` of every element in the collection. [#759](https://github.com/SwifterSwift/SwifterSwift/issues/759) by [cyber-gh](https://github.com/cyber-gh).
+  - Added `sort(by:and:)` and `sort(by:and:and:)` to sort a sequence based on multiple key paths. [#796](https://github.com/SwifterSwift/SwifterSwift/pull/796) by [MaxHaertwig](https://github.com/maxhaertwig).
+- **KeyedDecodingContainer**:
+  - Added `decodeBoolAsIntOrString(key:)` to try to decode a `Bool` as `Int` then `String` before decoding as Bool. [#750](https://github.com/SwifterSwift/SwifterSwift/pull/750) by [FraDeliro](https://github.com/FraDeliro).
+  - Added `decodeBoolAsIntOrStringIfPresent(key:)` to try to decode a `Bool` as `Int` then `String` before decoding as `Bool` if present. [#750](https://github.com/SwifterSwift/SwifterSwift/pull/750) by [FraDeliro](https://github.com/FraDeliro).
+- **Locale**:
+  - Added `is12HourTimeFormat` to indicate if locale has 12h format. [#793](https://github.com/SwifterSwift/SwifterSwift/pull/793) by [DimaZava](https://github.com/DimaZava).
+  - `flagEmoji(forRegionCode:)` to convert a region code into the corresponding flag emoji. [#813](https://github.com/SwifterSwift/SwifterSwift/pull/813) by [guykogus](https://github.com/guykogus)
+- **URLRequest**:
+  - `init(string:relativeTo:)` to allow initializing a `URL` with an optional `String`. [#818](https://github.com/SwifterSwift/SwifterSwift/pull/818) by [guykogus](https://github.com/guykogus)
+  - Added `curlString` property to get a cURL command representation of this URL request. [#790](https://github.com/SwifterSwift/SwifterSwift/pull/790) by [DimaZava](https://github.com/DimaZava).
+- **SKProduct**:
+  - Added `localizedPrice` to get localized price of product. [#781](https://github.com/SwifterSwift/SwifterSwift/pull/781) by [strawb3rryx7](https://github.com/strawb3rryx7).
+- **CGRect**
+  - Added property `center`. [#814](https://github.com/SwifterSwift/SwifterSwift/pull/814) by [qchenqizhi](https://github.com/qchenqizhi).
+  - Added initializer `init(center:size:)` to create `CGRect` with center and size. [#814](https://github.com/SwifterSwift/SwifterSwift/pull/814) by [qchenqizhi](https://github.com/qchenqizhi).
+  - Added `resizing(to:anchor:)` to create `CGRect` by resizing with anchor. [#814](https://github.com/SwifterSwift/SwifterSwift/pull/814) by [qchenqizhi](https://github.com/qchenqizhi).
 
 ### Changed
+
+- **Collection**:
+  - Refactored `group(by:)` to be generic for all `Collection`s, not only `where Index == Int`. [#758](https://github.com/SwifterSwift/SwifterSwift/pull/758) by [guykogus](https://github.com/guykogus)
 - **UIImage**:
   - Implemented `filled(withColor:)` using `UIGraphicsImageRenderer` when available. [#733](https://github.com/SwifterSwift/SwifterSwift/pull/733)
   - Updated `kilobytesSize` to be computed independently from `bytesSize` [#753](https://github.com/SwifterSwift/SwifterSwift/pull/753) by [mmdock](https://github.com/mmdock)
   - Updated `init?(base64String:)` to take in a `scale` factor paramater. [#753](https://github.com/SwifterSwift/SwifterSwift/pull/753) by [mmdock](https://github.com/mmdock)
-  
 - **UIImage**:
   - Refactored `tint(_:blendMode:)` using UIGraphicsImageRenderer if available. [#731](https://github.com/SwifterSwift/SwifterSwift/pull/731) by [FraDeliro](https://github.com/FraDeliro).
-
 - **Sequence**:
   - Corrected documentation for `sorted(by:with:)` and `sorted(by:)`. [#751](https://github.com/SwifterSwift/SwifterSwift/pull/751) by [mmdock](https://github.com/mmdock)
-
-### Deprecated
-
-### Removed
+- **NSAttributedString**:
+  - Update `applying(attributes: [NSAttributedString.Key : Any], toRangesMatching pattern: String)` to respond `applying(attributes: [NSAttributedString.Key : Any], toRangesMatching pattern: String, options: NSRegularExpression.Options = [])` signature to support regular expression options.  [#791](https://github.com/SwifterSwift/SwifterSwift/pull/791) by [DimaZava](https://github.com/DimaZava)
+- **UIButton**:
+  - Refactored `centerTextAndImage(spacing:)`: now the image position can be above the text, by setting a new parameter `imageAboveText` to `true`. [#807](https://github.com/SwifterSwift/SwifterSwift/pull/807) by [qchenqizhi](https://github.com/qchenqizhi).
+- **String**:
+  - Bug fix `String[safe:]`, subscript should not crash. [#816](https://github.com/SwifterSwift/SwifterSwift/pull/816) by [cHaLkdusT](https://github.com/cHaLkdusT)
 
 ### Fixed
 
-### Security
+- Fixed build error occurring when building AppKit extensions for macCatalyst. [#762](https://github.com/SwifterSwift/SwifterSwift/pull/762) by [MaxHaertwig](https://github.com/maxhaertwig).
+- Fixed `String.base64Decoded` making it a safe decode by including padding on the string. [#801](https://github.com/SwifterSwift/SwifterSwift/pull/801) by [LucianoPAlmeida](https://github.com/LucianoPAlmeida).
+- Fixed `UIImage.cropped(to:)` making it work correctly with scaled image. [#811](https://github.com/SwifterSwift/SwifterSwift/pull/811) by [qchenqizhi](https://github.com/qchenqizhi).
 
 ---
 
