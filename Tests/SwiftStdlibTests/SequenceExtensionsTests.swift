@@ -1,20 +1,19 @@
-//
-//  SequenceExtensionsTests.swift
-//  SwifterSwift
-//
-//  Created by Anton Novoselov on 04/04/2018.
-//  Copyright © 2018 SwifterSwift
-//
+// SequenceExtensionsTests.swift - Copyright 2020 SwifterSwift
 
-import XCTest
 @testable import SwifterSwift
+import XCTest
 
 private enum SequenceTestError: Error {
     case closureThrows
 }
 
-final class SequenceExtensionsTests: XCTestCase {
+struct TestValue: Equatable, ExpressibleByIntegerLiteral {
+    let value: Int
 
+    init(integerLiteral value: Int) { self.value = value }
+}
+
+final class SequenceExtensionsTests: XCTestCase {
     func testAllMatch() {
         let collection = [2, 4, 6, 8, 10, 12]
         XCTAssert(collection.all { $0 % 2 == 0 })
@@ -28,13 +27,6 @@ final class SequenceExtensionsTests: XCTestCase {
     func testNoneMatch() {
         let collection = [3, 5, 7, 9, 11, 13]
         XCTAssert(collection.none { $0 % 2 == 0 })
-    }
-
-    func testLastWhere() {
-        let array = [1, 1, 2, 1, 1, 1, 2, 1, 4, 1]
-        let element = array.last { $0 % 2 == 0 }
-        XCTAssertEqual(element, 4)
-        XCTAssertNil([Int]().last { $0 % 2 == 0 })
     }
 
     func testRejectWhere() {
@@ -59,7 +51,7 @@ final class SequenceExtensionsTests: XCTestCase {
     func testForEachWhere() {
         let input = [1, 2, 2, 2, 1, 4, 1]
         var output: [Int] = []
-        input.forEach(where: {$0 % 2 == 0}, body: { output.append($0 * 2) })
+        input.forEach(where: { $0 % 2 == 0 }, body: { output.append($0 * 2) })
         XCTAssertEqual(output, [4, 4, 4, 8])
     }
 
@@ -104,7 +96,16 @@ final class SequenceExtensionsTests: XCTestCase {
         XCTAssertEqual(tuple.1, [1, 3, 5])
     }
 
-    func testContains() {
+    func testContainsEquatable() {
+        XCTAssert([TestValue]().contains([]))
+        XCTAssertFalse([TestValue]().contains([1, 2]))
+        XCTAssert(([1, 2, 3] as [TestValue]).contains([1, 2]))
+        XCTAssert(([1, 2, 3] as [TestValue]).contains([2, 3]))
+        XCTAssert(([1, 2, 3] as [TestValue]).contains([1, 3]))
+        XCTAssertFalse(([1, 2, 3] as [TestValue]).contains([4, 5]))
+    }
+
+    func testContainsHashable() {
         XCTAssert([Int]().contains([]))
         XCTAssertFalse([Int]().contains([1, 2]))
         XCTAssert([1, 2, 3].contains([1, 2]))
@@ -182,24 +183,19 @@ final class SequenceExtensionsTests: XCTestCase {
         XCTAssertEqual(people.sorted(by: \.surname, and: \.forename, and: \.age), expectedResult)
     }
 
-    func testMapByKeyPath() {
-        let array1 = [Person(name: "John", age: 30, location: Location(city: "Boston")), Person(name: "Jan", age: 22, location: Location(city: "Prague")), Person(name: "Roman", age: 26, location: Location(city: "Moscow"))]
-        XCTAssertEqual(array1.map(by: \.name), ["John", "Jan", "Roman"])
+    func testFirstByKeyPath() {
+        let array1 = [
+            Person(name: "John", age: 30, location: Location(city: "Boston")),
+            Person(name: "Jan", age: 22, location: nil),
+            Person(name: "Roman", age: 30, location: Location(city: "Moscow"))
+        ]
 
-        let array2 = [Person(name: "Daniel", age: 45, location: Location(city: "Pittsburgh")), Person(name: "Michael", age: nil, location: Location(city: "Dresden")), Person(name: "Pierre", age: 20, location: Location(city: "Paris"))]
-        XCTAssertEqual(array2.map(by: \.age), [45, nil, 20])
-    }
+        let first30Age = array1.first(where: \.age, equals: 30)
 
-    func testCompactMapByKeyPath() {
-        let array1 = [Person(name: "John", age: 30, location: Location(city: "Boston")), Person(name: "Jan", age: 22, location: nil), Person(name: "Roman", age: 26, location: Location(city: "Moscow"))]
-        XCTAssertEqual(array1.compactMap(by: \.location), [Location(city: "Boston"), Location(city: "Moscow")])
+        XCTAssertEqual(first30Age, array1.first)
 
-        let array2 = [Person(name: "Daniel", age: 45, location: Location(city: "Pittsburgh")), Person(name: "Michael", age: nil, location: Location(city: "Dresden")), Person(name: "Pierre", age: 20, location: Location(city: "Paris"))]
-        XCTAssertEqual(array2.compactMap(by: \.age), [45, 20])
-    }
+        let missingPerson = array1.first(where: \.name, equals: "Tom")
 
-    func testFilterByKeyPath() {
-        let array1 = [Person(name: "Iveta", age: 20, location: Location(city: "Prague"), isStudent: true), Person(name: "Victor", age: 44, location: Location(city: "Dallas"), isStudent: false), Person(name: "Lukasz", age: 62, location: nil), Person(name: "Anna", age: 18, location: Location(city: "Minsk"), isStudent: true)]
-        XCTAssertEqual(array1.filter(by: \.isStudent), [Person(name: "Iveta", age: 20, location: Location(city: "Prague"), isStudent: true), Person(name: "Anna", age: 18, location: Location(city: "Minsk"), isStudent: true)])
+        XCTAssertNil(missingPerson)
     }
 }

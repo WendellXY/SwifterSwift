@@ -1,3 +1,6 @@
+// ArrayExtensionsTests.swift - Copyright 2022 SwifterSwift
+
+@testable import SwifterSwift
 //
 //  ArrayExtensionsTests.swift
 //  SwifterSwift
@@ -6,10 +9,14 @@
 //  Copyright © 2016 SwifterSwift
 //
 import XCTest
-@testable import SwifterSwift
 
 final class ArrayExtensionsTests: XCTestCase {
-
+    func testInitClosure() {
+        let squares = [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+        let array = [Int](count: 11) { $0 * $0 }
+        XCTAssertEqual(squares, array)
+    }
+    
     func testPrepend() {
         var arr = [2, 3, 4, 5]
         arr.prepend(1)
@@ -44,11 +51,16 @@ final class ArrayExtensionsTests: XCTestCase {
         let candidate2 = [2, 5, 3, 6, 1, 4]
         XCTAssertEqual(candidate2.sorted(like: order1, keyPath: \.self), [1, 2, 3, 4, 5, 6])
 
-        // swiftlint:disable:next nesting
         struct TestStruct { let prop: String }
         let order3 = ["1", "2", "3", "4", "5"]
-        let candidate3 = [TestStruct(prop: "3"), TestStruct(prop: "2"), TestStruct(prop: "2"), TestStruct(prop: "1"), TestStruct(prop: "3")]
-        XCTAssertEqual(candidate3.sorted(like: order3, keyPath: \.prop).map { $0.prop }, ["1", "2", "2", "3", "3"])
+        let candidate3 = [
+            TestStruct(prop: "3"),
+            TestStruct(prop: "2"),
+            TestStruct(prop: "2"),
+            TestStruct(prop: "1"),
+            TestStruct(prop: "3")
+        ]
+        XCTAssertEqual(candidate3.sorted(like: order3, keyPath: \.prop).map(\.prop), ["1", "2", "2", "3", "3"])
     }
 
     func testRemoveAll() {
@@ -83,12 +95,52 @@ final class ArrayExtensionsTests: XCTestCase {
     }
 
     func testWithoutDuplicatesUsingKeyPath() {
-        let array = [Person(name: "Wade", age: 20, location: Location(city: "London")), Person(name: "James", age: 32), Person(name: "James", age: 36), Person(name: "Rose", age: 29), Person(name: "James", age: 72, location: Location(city: "Moscow")), Person(name: "Rose", age: 56), Person(name: "Wade", age: 22, location: Location(city: "Prague"))]
+        let array = [
+            Person(name: "Wade", age: 20, location: Location(city: "London")),
+            Person(name: "James", age: 32),
+            Person(name: "James", age: 36),
+            Person(name: "Rose", age: 29),
+            Person(name: "James", age: 72, location: Location(city: "Moscow")),
+            Person(name: "Rose", age: 56),
+            Person(name: "Wade", age: 22, location: Location(city: "Prague"))
+        ]
         let arrayWithoutDuplicatesHashable = array.withoutDuplicates(keyPath: \.name)
-        let arrayWithoutDuplicatesHashablePrepared = [Person(name: "Wade", age: 20, location: Location(city: "London")), Person(name: "James", age: 32), Person(name: "Rose", age: 29)]
+        let arrayWithoutDuplicatesHashablePrepared = [
+            Person(name: "Wade", age: 20, location: Location(city: "London")),
+            Person(name: "James", age: 32),
+            Person(name: "Rose", age: 29)
+        ]
         XCTAssertEqual(arrayWithoutDuplicatesHashable, arrayWithoutDuplicatesHashablePrepared)
         let arrayWithoutDuplicatesNHashable = array.withoutDuplicates(keyPath: \.location)
-        let arrayWithoutDuplicatesNHashablePrepared = [Person(name: "Wade", age: 20, location: Location(city: "London")), Person(name: "James", age: 32), Person(name: "James", age: 72, location: Location(city: "Moscow")), Person(name: "Wade", age: 22, location: Location(city: "Prague"))]
+        let arrayWithoutDuplicatesNHashablePrepared = [
+            Person(name: "Wade", age: 20, location: Location(city: "London")),
+            Person(name: "James", age: 32),
+            Person(name: "James", age: 72, location: Location(city: "Moscow")),
+            Person(name: "Wade", age: 22, location: Location(city: "Prague"))
+        ]
         XCTAssertEqual(arrayWithoutDuplicatesNHashable, arrayWithoutDuplicatesNHashablePrepared)
+    }
+
+    func testAppendElement() {
+        var testArray = ["h", "e", "l", "l", "o"]
+        let optionalString: String? = "f"
+        testArray.appendIfNonNil(optionalString)
+        XCTAssertEqual(testArray, ["h", "e", "l", "l", "o", "f"])
+
+        let nilString: String? = nil
+        testArray.appendIfNonNil(nilString)
+        XCTAssertEqual(testArray, ["h", "e", "l", "l", "o", "f"])
+    }
+
+    func testAppendSequence() {
+        var testEmptyArray: [Double] = []
+        let numbersToAppend: [Double]? = [69.0, 68.0, 67.0]
+        testEmptyArray.appendIfNonNil(contentsOf: numbersToAppend)
+        XCTAssertEqual(testEmptyArray, numbersToAppend)
+
+        var testStringArray: [String] = ["h", "e", "l", "l", "o"]
+        let nilArray: [String]? = nil
+        testStringArray.appendIfNonNil(contentsOf: nilArray)
+        XCTAssertEqual(testStringArray, ["h", "e", "l", "l", "o"])
     }
 }

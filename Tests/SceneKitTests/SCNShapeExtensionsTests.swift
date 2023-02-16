@@ -1,13 +1,7 @@
-//
-//  SCNShapeExtensionsTests.swift
-//  SwifterSwift
-//
-//  Created by Max Härtwig on 06.04.19.
-//  Copyright © 2019 SwifterSwift
-//
+// SCNShapeExtensionsTests.swift - Copyright 2020 SwifterSwift
 
-import XCTest
 @testable import SwifterSwift
+import XCTest
 
 #if canImport(SceneKit)
 import SceneKit
@@ -17,7 +11,6 @@ import UIKit
 #endif
 
 final class SCNShapeExtensionsTests: XCTestCase {
-
     let rect = CGRect(x: 0, y: 0, width: 10, height: 10)
 
     #if canImport(UIKit)
@@ -30,10 +23,9 @@ final class SCNShapeExtensionsTests: XCTestCase {
     func testInitWithColor() {
         let color = UIColor.red
         let shape = SCNShape(path: UIBezierPath(rect: rect), extrusionDepth: 1, color: color)
-        XCTAssertEqual(shape.materials[0].diffuse.contents as? Color, color)
+        XCTAssertEqual(shape.materials[0].diffuse.contents as? SFColor, color)
     }
     #endif
-
 }
 
 #endif

@@ -1,19 +1,12 @@
-//
-//  SCNPlaneExtensionsTests.swift
-//  SwifterSwift
-//
-//  Created by Max Härtwig on 06.04.19.
-//  Copyright © 2019 SwifterSwift
-//
+// SCNPlaneExtensionsTests.swift - Copyright 2020 SwifterSwift
 
-import XCTest
 @testable import SwifterSwift
+import XCTest
 
 #if canImport(SceneKit)
 import SceneKit
 
 final class SCNPlaneExtensionsTests: XCTestCase {
-
     func testInitWithWidth() {
         let plane = SCNPlane(width: 10)
         XCTAssertEqual(plane.boundingSize, SCNVector3(10, 10, 0))
@@ -26,9 +19,9 @@ final class SCNPlaneExtensionsTests: XCTestCase {
     }
 
     func testInitWithColor() {
-        let color = Color.red
+        let color = SFColor.red
         let plane = SCNPlane(width: 10, height: 20, color: color)
-        XCTAssertEqual(plane.materials[0].diffuse.contents as? Color, color)
+        XCTAssertEqual(plane.materials[0].diffuse.contents as? SFColor, color)
     }
 
     func testInitWithWidthAndMaterial() {
@@ -39,12 +32,11 @@ final class SCNPlaneExtensionsTests: XCTestCase {
     }
 
     func testInitWithWidthAndColor() {
-        let color = Color.red
+        let color = SFColor.red
         let plane = SCNPlane(width: 10, color: color)
         XCTAssertEqual(plane.boundingSize, SCNVector3(10, 10, 0))
-        XCTAssertEqual(plane.materials[0].diffuse.contents as? Color, color)
+        XCTAssertEqual(plane.materials[0].diffuse.contents as? SFColor, color)
     }
-
 }
 
 #endif

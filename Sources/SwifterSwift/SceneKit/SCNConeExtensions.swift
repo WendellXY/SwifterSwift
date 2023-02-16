@@ -1,17 +1,11 @@
-//
-//  SCNConeExtensions.swift
-//  SwifterSwift
-//
-//  Created by Max Härtwig on 06.04.19.
-//  Copyright © 2019 SwifterSwift
-//
+// SCNConeExtensions.swift - Copyright 2020 SwifterSwift
 
 #if canImport(SceneKit)
 import SceneKit
 
 // MARK: - Methods
-public extension SCNCone {
 
+public extension SCNCone {
     /// SwifterSwift: Creates a cone geometry with the given top diameter, bottom diameter, and height.
     ///
     /// - Parameters:
@@ -53,7 +47,7 @@ public extension SCNCone {
     ///   - bottomRadius: The radius of the cone’s base, forming a circle in the x- and z-axis dimensions of its local coordinate space.
     ///   - height: The height of the cone along the y-axis of its local coordinate space.
     ///   - color: The color of the geometry's material.
-    convenience init(topRadius: CGFloat, bottomRadius: CGFloat, height: CGFloat, color: Color) {
+    convenience init(topRadius: CGFloat, bottomRadius: CGFloat, height: CGFloat, color: SFColor) {
         self.init(topRadius: topRadius, bottomRadius: bottomRadius, height: height)
         materials = [SCNMaterial(color: color)]
     }
@@ -65,11 +59,10 @@ public extension SCNCone {
     ///   - bottomDiameter: The diameter of the cone’s base, forming a circle in the x- and z-axis dimensions of its local coordinate space.
     ///   - height: The height of the cone along the y-axis of its local coordinate space.
     ///   - color: The color of the geometry's material.
-    convenience init(topDiameter: CGFloat, bottomDiameter: CGFloat, height: CGFloat, color: Color) {
+    convenience init(topDiameter: CGFloat, bottomDiameter: CGFloat, height: CGFloat, color: SFColor) {
         self.init(topRadius: topDiameter / 2, bottomRadius: bottomDiameter / 2, height: height)
         materials = [SCNMaterial(color: color)]
     }
-
 }
 
 #endif

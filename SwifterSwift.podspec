@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'SwifterSwift'
-  s.version = '5.2.0'
+  s.version = '5.3.0'
   s.summary = 'A handy collection of more than 500 native Swift extensions to boost your productivity.'
   s.description = <<-DESC
   SwifterSwift is a collection of over 500 native Swift extensions, with handy methods, syntactic sugar, and performance improvements for wide range of primitive data types, UIKit and Cocoa classes –over 500 in 1– for iOS, macOS, tvOS and watchOS.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
   s.watchos.deployment_target = '2.0'
 
-  s.swift_version = '5.1'
+  s.swift_version = '5.3'
   s.requires_arc = true
   s.source = { git: 'https://github.com/SwifterSwift/SwifterSwift.git', tag: s.version.to_s }
   s.source_files = 'Sources/SwifterSwift/**/*.swift'
@@ -58,6 +58,11 @@ Pod::Spec.new do |s|
     sp.source_files  = 'Sources/SwifterSwift/Shared/*.swift', 'Sources/SwifterSwift/CoreAnimation/*.swift'
   end
 
+  # CryptoKit Extensions
+  s.subspec 'CryptoKit' do |sp|
+    sp.source_files  = 'Sources/SwifterSwift/Shared/*.swift', 'Sources/SwifterSwift/CryptoKit/*.swift'
+  end
+
   # MapKit Extensions
   s.subspec 'MapKit' do |sp|
     sp.source_files = 'Sources/SwifterSwift/Shared/*.swift', 'Sources/SwifterSwift/MapKit/*.swift'
@@ -80,6 +85,16 @@ Pod::Spec.new do |s|
   # Dispatch Extensions
   s.subspec 'Dispatch' do |sp|
     sp.source_files = 'Sources/SwifterSwift/Dispatch/*.swift'
+  end
+
+  # WebKit Extensions
+  s.subspec 'WebKit' do |sp|
+    sp.source_files = 'Sources/SwifterSwift/WebKit/*.swift'
+  end
+
+  # HealthKit Extensions
+  s.subspec 'HealthKit' do |sp|
+    sp.source_files = 'Sources/SwifterSwift/HealthKit/*.swift'
   end
 
 end

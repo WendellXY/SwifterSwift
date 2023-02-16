@@ -1,19 +1,12 @@
-//
-//  SCNCapsuleExtensionsTests.swift
-//  SwifterSwift
-//
-//  Created by Max Härtwig on 06.04.19.
-//  Copyright © 2019 SwifterSwift
-//
+// SCNCapsuleExtensionsTests.swift - Copyright 2020 SwifterSwift
 
-import XCTest
 @testable import SwifterSwift
+import XCTest
 
 #if canImport(SceneKit)
 import SceneKit
 
 final class SCNCapsuleExtensionsTests: XCTestCase {
-
     func testInitWithDiameter() {
         let capsule = SCNCapsule(capDiameter: 10, height: 20)
         XCTAssertEqual(capsule.boundingSize, SCNVector3(10, 20, 10))
@@ -26,9 +19,9 @@ final class SCNCapsuleExtensionsTests: XCTestCase {
     }
 
     func testInitWithColor() {
-        let color = Color.red
+        let color = SFColor.red
         let capsule = SCNCapsule(capRadius: 5, height: 20, color: color)
-        XCTAssertEqual(capsule.materials[0].diffuse.contents as? Color, color)
+        XCTAssertEqual(capsule.materials[0].diffuse.contents as? SFColor, color)
     }
 
     func testInitWithDiameterAndMaterial() {
@@ -39,12 +32,11 @@ final class SCNCapsuleExtensionsTests: XCTestCase {
     }
 
     func testInitWithDiameterAndColor() {
-        let color = Color.red
+        let color = SFColor.red
         let capsule = SCNCapsule(capDiameter: 10, height: 20, color: color)
         XCTAssertEqual(capsule.boundingSize, SCNVector3(10, 20, 10))
-        XCTAssertEqual(capsule.materials[0].diffuse.contents as? Color, color)
+        XCTAssertEqual(capsule.materials[0].diffuse.contents as? SFColor, color)
     }
-
 }
 
 #endif

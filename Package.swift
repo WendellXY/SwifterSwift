@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -14,9 +14,12 @@ let package = Package(
     products: [
         .library(name: "SwifterSwift", targets: ["SwifterSwift"])
     ],
-    dependencies: [],
     targets: [
-        .target(name: "SwifterSwift", dependencies: []),
-        .testTarget(name: "SwifterSwiftTests", dependencies: ["SwifterSwift"], path: "Tests")
-    ]
-)
+        .target(name: "SwifterSwift"),
+        .testTarget(
+            name: "SwifterSwiftTests",
+            dependencies: ["SwifterSwift"],
+            path: "Tests",
+            exclude: ["Info.plist"],
+            resources: [.process("ResourcesTests/Resources")])
+    ])
