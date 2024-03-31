@@ -1,4 +1,4 @@
-// URLSessionExtensionsTests.swift - Copyright 2023 SwifterSwift
+// URLSessionExtensionsTests.swift - Copyright 2024 SwifterSwift
 
 @testable import SwifterSwift
 import XCTest
@@ -20,7 +20,7 @@ final class URLSessionExtensionsTests: XCTestCase {
             "gem 'xcpretty-json-formatter'\n\n" +
             "gem 'fastlane'\n" +
             "gem 'cocoapods'"
-        let url = URL(string: "https://raw.githubusercontent.com/SwifterSwift/SwifterSwift/5.3.0/Gemfile")!
+        let url = URL(string: "https://raw.githubusercontent.com/SwifterSwift/SwifterSwift/6.0.0/Gemfile")!
         var data: Data?
         var response: URLResponse?
         XCTAssertNoThrow((data, response) = try URLSession.shared.dataSync(with: URLRequest(url: url)))
@@ -33,7 +33,7 @@ final class URLSessionExtensionsTests: XCTestCase {
         XCTAssertEqual(httpResponse!.statusCode, 200)
         XCTAssertEqual(httpResponse!.url, url)
     }
-    
+
     func testDataSyncError() {
         let url = URL(string: "http://something.notexistingcountry/something")!
         XCTAssertThrowsError(_ = try URLSession.shared.dataSync(with: URLRequest(url: url)))

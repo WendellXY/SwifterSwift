@@ -1,4 +1,4 @@
-// UIBarButtonExtensionsTests.swift - Copyright 2020 SwifterSwift
+// UIBarButtonExtensionsTests.swift - Copyright 2024 SwifterSwift
 
 @testable import SwifterSwift
 import XCTest

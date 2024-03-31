@@ -1,4 +1,4 @@
-// MKMapViewTests.swift - Copyright 2020 SwifterSwift
+// MKMapViewExtensionsTests.swift - Copyright 2024 SwifterSwift
 
 @testable import SwifterSwift
 import XCTest
@@ -7,26 +7,22 @@ import XCTest
 import struct CoreLocation.CLLocationCoordinate2D
 import MapKit
 
-#if !os(watchOS)
-@available(tvOS 9.2, *)
-final class MKMapViewTests: XCTestCase {
-    @available(iOS 11.0, tvOS 11.0, macOS 10.13, *)
+final class MKMapViewExtensionsTests: XCTestCase {
     func testRegister() {
         let mapView = MKMapView()
 
-        mapView.register(annotationViewWithClass: MKPinAnnotationView.self)
-        let annotationView = mapView.dequeueReusableAnnotationView(withClass: MKPinAnnotationView.self)
+        mapView.register(annotationViewWithClass: annotationViewType)
+        let annotationView = mapView.dequeueReusableAnnotationView(withClass: annotationViewType)
         XCTAssertNotNil(annotationView)
     }
 
-    @available(iOS 11.0, tvOS 11.0, macOS 10.13, *)
     func testRegisterAndDequeue() {
         let mapView = MKMapView()
         let annotation = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0))
 
-        mapView.register(annotationViewWithClass: MKPinAnnotationView.self)
+        mapView.register(annotationViewWithClass: annotationViewType)
         let annotationViewWithAnnotation = mapView.dequeueReusableAnnotationView(
-            withClass: MKPinAnnotationView.self,
+            withClass: annotationViewType,
             for: annotation)
         XCTAssertNotNil(annotationViewWithAnnotation)
     }
@@ -65,8 +61,14 @@ final class MKMapViewTests: XCTestCase {
             XCTAssert(mapView.visibleMapRect.contains(MKMapPoint(location)))
         }
     }
-}
 
-#endif
+    private var annotationViewType: MKAnnotationView.Type {
+        if #available(macOS 13, iOS 16, *) {
+            return MKMarkerAnnotationView.self
+        } else {
+            return MKPinAnnotationView.self
+        }
+    }
+}
 
 #endif

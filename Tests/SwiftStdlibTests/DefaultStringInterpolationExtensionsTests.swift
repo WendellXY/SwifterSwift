@@ -1,4 +1,4 @@
-// DefaultStringInterpolationExtensionsTests.swift - Copyright 2022 SwifterSwift
+// DefaultStringInterpolationExtensionsTests.swift - Copyright 2024 SwifterSwift
 
 @testable import SwifterSwift
 import XCTest

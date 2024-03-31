@@ -1,4 +1,4 @@
-// NSImageExtensionsTests.swift - Copyright 2020 SwifterSwift
+// NSImageExtensionsTests.swift - Copyright 2024 SwifterSwift
 
 #if os(macOS)
 

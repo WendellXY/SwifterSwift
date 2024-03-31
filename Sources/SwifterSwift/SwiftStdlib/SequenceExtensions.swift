@@ -1,4 +1,4 @@
-// SequenceExtensions.swift - Copyright 2022 SwifterSwift
+// SequenceExtensions.swift - Copyright 2024 SwifterSwift
 
 public extension Sequence {
     /// SwifterSwift: Check if all elements in collection match a condition.
@@ -138,7 +138,7 @@ public extension Sequence {
     /// - Complexity: O(*n*), where *n* is the length of the sequence.
     func withoutDuplicates<T: Hashable>(transform: (Element) throws -> T) rethrows -> [Element] {
         var set = Set<T>()
-        return try filter { set.insert(try transform($0)).inserted }
+        return try filter { try set.insert(transform($0)).inserted }
     }
 
     ///  SwifterSwift: Separates all items into 2 lists based on a given predicate. The first list contains all items
@@ -164,7 +164,7 @@ public extension Sequence {
     /// SwifterSwift: Return a sorted array based on a key path and a compare function.
     ///
     /// - Parameter keyPath: Key path to sort by.
-    /// - Parameter compare: Comparation function that will determine the ordering.
+    /// - Parameter compare: Comparison function that will determine the ordering.
     /// - Returns: The sorted array.
     func sorted<T>(by keyPath: KeyPath<Element, T>, with compare: (T, T) -> Bool) -> [Element] {
         return sorted { compare($0[keyPath: keyPath], $1[keyPath: keyPath]) }
@@ -224,6 +224,16 @@ public extension Sequence {
     func sum<T: AdditiveArithmetic>(for keyPath: KeyPath<Element, T>) -> T {
         // Inspired by: https://swiftbysundell.com/articles/reducers-in-swift/
         return reduce(.zero) { $0 + $1[keyPath: keyPath] }
+    }
+
+    /// SwifterSwift: Product of all elements in sequence.
+    ///
+    ///        ["James", "Wade", "Bryant"].product(for: \.count) -> 120
+    ///
+    /// - Parameter map: Mapping function to `Numeric` value.
+    /// - Returns: product of the sequence's elements.
+    func product<T: Numeric>(for map: (Element) -> T) -> T {
+        reduce(1) { $0 * map($1) }
     }
 
     /// SwifterSwift: Returns the first element of the sequence with having property by given key path equals to given
@@ -307,4 +317,15 @@ public extension Sequence where Element: AdditiveArithmetic {
     func sum() -> Element {
         return reduce(.zero, +)
     }
+}
+
+// MARK: - Methods (Numeric)
+
+public extension Sequence where Element: Numeric {
+    /// SwifterSwift: Product of all elements in sequence.
+    ///
+    ///        [1, 2, 3, 4, 5].product() -> 120
+    ///
+    /// - Returns: product of the sequence's elements.
+    func product() -> Element { reduce(1, *) }
 }

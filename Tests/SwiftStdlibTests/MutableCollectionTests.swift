@@ -1,4 +1,4 @@
-// MutableCollectionTests.swift - Copyright 2020 SwifterSwift
+// MutableCollectionTests.swift - Copyright 2024 SwifterSwift
 
 import XCTest
 

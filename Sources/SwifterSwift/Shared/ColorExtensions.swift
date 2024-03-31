@@ -1,15 +1,17 @@
-// ColorExtensions.swift - Copyright 2020 SwifterSwift
+// ColorExtensions.swift - Copyright 2024 SwifterSwift
 
 #if !os(Linux)
 
 #if canImport(UIKit)
 import UIKit
+
 /// SwifterSwift: Color
 public typealias SFColor = UIColor
 #endif
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
+
 /// SwifterSwift: Color
 public typealias SFColor = NSColor
 #endif
@@ -237,9 +239,9 @@ public extension SFColor {
         var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
         getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         return SFColor(red: min(red + percentage, 1.0),
-                     green: min(green + percentage, 1.0),
-                     blue: min(blue + percentage, 1.0),
-                     alpha: alpha)
+                       green: min(green + percentage, 1.0),
+                       blue: min(blue + percentage, 1.0),
+                       alpha: alpha)
     }
 
     /// SwifterSwift: Darken a color.
@@ -254,9 +256,9 @@ public extension SFColor {
         var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
         getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         return SFColor(red: max(red - percentage, 0),
-                     green: max(green - percentage, 0),
-                     blue: max(blue - percentage, 0),
-                     alpha: alpha)
+                       green: max(green - percentage, 0),
+                       blue: max(blue - percentage, 0),
+                       alpha: alpha)
     }
 }
 
@@ -1811,7 +1813,7 @@ public extension SFColor {
         public static let carrot = SFColor(hex: 0xE67E22)!
 
         /// SwifterSwift: hex #D35400
-        public static let pumkin = SFColor(hex: 0xD35400)!
+        public static let pumpkin = SFColor(hex: 0xD35400)!
 
         /// SwifterSwift: hex #E74C3C
         public static let alizarin = SFColor(hex: 0xE74C3C)!
@@ -1829,7 +1831,7 @@ public extension SFColor {
         public static let asbestos = SFColor(hex: 0x7F8C8D)!
 
         /// SwifterSwift: hex #95A5A6
-        public static let concerte = SFColor(hex: 0x95A5A6)!
+        public static let concrete = SFColor(hex: 0x95A5A6)!
     }
 
     // swiftlint:enable type_body_length

@@ -1,4 +1,4 @@
-// XCTestExtensionsTests.swift - Copyright 2020 SwifterSwift
+// XCTestExtensionsTests.swift - Copyright 2024 SwifterSwift
 
 @testable import SwifterSwift
 import XCTest

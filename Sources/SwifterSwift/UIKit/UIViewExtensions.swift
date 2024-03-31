@@ -1,4 +1,4 @@
-// UIViewExtensions.swift - Copyright 2022 SwifterSwift
+// UIViewExtensions.swift - Copyright 2024 SwifterSwift
 
 #if canImport(UIKit) && !os(watchOS)
 import UIKit
@@ -48,6 +48,26 @@ public extension UIView {
 
         /// SwifterSwift: easeInOut animation.
         case easeInOut
+    }
+
+    /// SwifterSwift: Add gradient directions
+    struct GradientDirection {
+        public static let topToBottom = GradientDirection(startPoint: CGPoint(x: 0.5, y: 0.0),
+                                                          endPoint: CGPoint(x: 0.5, y: 1.0))
+        public static let bottomToTop = GradientDirection(startPoint: CGPoint(x: 0.5, y: 1.0),
+                                                          endPoint: CGPoint(x: 0.5, y: 0.0))
+        public static let leftToRight = GradientDirection(startPoint: CGPoint(x: 0.0, y: 0.5),
+                                                          endPoint: CGPoint(x: 1.0, y: 0.5))
+        public static let rightToLeft = GradientDirection(startPoint: CGPoint(x: 1.0, y: 0.5),
+                                                          endPoint: CGPoint(x: 0.0, y: 0.5))
+
+        public let startPoint: CGPoint
+        public let endPoint: CGPoint
+
+        public init(startPoint: CGPoint, endPoint: CGPoint) {
+            self.startPoint = startPoint
+            self.endPoint = endPoint
+        }
     }
 }
 
@@ -104,22 +124,16 @@ public extension UIView {
 
     /// SwifterSwift: Check if view is in RTL format.
     var isRightToLeft: Bool {
-        if #available(iOS 10.0, macCatalyst 13.0, tvOS 10.0, *) {
-            return effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            return false
-        }
+        return effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
 
     /// SwifterSwift: Take screenshot of view (if applicable).
     var screenshot: UIImage? {
-        UIGraphicsBeginImageContextWithOptions(layer.frame.size, false, 0)
-        defer {
-            UIGraphicsEndImageContext()
+        let size = layer.frame.size
+        guard size != .zero else { return nil }
+        return UIGraphicsImageRenderer(size: layer.frame.size).image { context in
+            layer.render(in: context.cgContext)
         }
-        guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        layer.render(in: context)
-        return UIGraphicsGetImageFromCurrentImageContext()
     }
 
     /// SwifterSwift: Shadow color of view; also inspectable from Storyboard.
@@ -261,6 +275,16 @@ public extension UIView {
         layer.mask = shape
     }
 
+    /// SwifterSwift: Make the view circular.
+    ///
+    /// - Parameter diameter: This value will be set as the width and height of the view.
+    func makeCircle(diameter: CGFloat) {
+        clipsToBounds = true
+        bounds.size.height = diameter
+        bounds.size.width = diameter
+        layer.cornerRadius = diameter / 2
+    }
+
     /// SwifterSwift: Add shadow to view.
     ///
     /// - Note: This method only works with non-clear background color, or if the view has a `shadowPath` set.
@@ -288,6 +312,18 @@ public extension UIView {
     /// - Parameter subviews: array of subviews to add to self.
     func addSubviews(_ subviews: [UIView]) {
         subviews.forEach { addSubview($0) }
+    }
+
+    /// SwifterSwift: Make the view blurry.
+    ///
+    /// - Parameter style: UIBlurEffectStyle (default is .light).
+    func blur(withStyle style: UIBlurEffect.Style = .light) {
+        let blurEffect = UIBlurEffect(style: style)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
+        addSubview(blurEffectView)
+        clipsToBounds = true
     }
 
     /// SwifterSwift: Fade in view.
@@ -352,7 +388,9 @@ public extension UIView {
         gestureRecognizers?.forEach(removeGestureRecognizer)
     }
 
-    /// SwifterSwift: Attaches gesture recognizers to the view. Attaching gesture recognizers to a view defines the scope of the represented gesture, causing it to receive touches hit-tested to that view and all of its subviews. The view establishes a strong reference to the gesture recognizers.
+    /// SwifterSwift: Attaches gesture recognizers to the view. Attaching gesture recognizers to a view defines the
+    /// scope of the represented gesture, causing it to receive touches hit-tested to that view and all of its subviews.
+    /// The view establishes a strong reference to the gesture recognizers.
     ///
     /// - Parameter gestureRecognizers: The array of gesture recognizers to be added to the view.
     func addGestureRecognizers(_ gestureRecognizers: [UIGestureRecognizer]) {
@@ -361,7 +399,8 @@ public extension UIView {
         }
     }
 
-    /// SwifterSwift: Detaches gesture recognizers from the receiving view. This method releases gestureRecognizers in addition to detaching them from the view.
+    /// SwifterSwift: Detaches gesture recognizers from the receiving view. This method releases gestureRecognizers in
+    /// addition to detaching them from the view.
     ///
     /// - Parameter gestureRecognizers: The array of gesture recognizers to be removed from the view.
     func removeGestureRecognizers(_ gestureRecognizers: [UIGestureRecognizer]) {
@@ -472,6 +511,40 @@ public extension UIView {
         CATransaction.commit()
     }
 
+    /// SwifterSwift: Add Gradient Colors.
+    ///
+    ///     view.addGradient(
+    ///         colors: [.red, .blue],
+    ///         locations: [0.0, 1.0],
+    ///         direction: .topToBottom
+    ///     )
+    ///
+    /// - Parameters:
+    ///   - colors: An array of `SFColor` defining the color of each gradient stop.
+    ///   - locations: An array of `CGFloat` defining the location of each
+    ///                gradient stop as a value in the range [0, 1]. The values must be
+    ///                monotonically increasing.
+    ///   - direction: Struct type describing the direction of the gradient.
+    func addGradient(colors: [SFColor], locations: [CGFloat] = [0.0, 1.0], direction: GradientDirection) {
+        // <https://github.com/swiftdevcenter/GradientColorExample>
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = colors.map(\.cgColor)
+        gradientLayer.locations = locations.map { NSNumber(value: $0) }
+        gradientLayer.startPoint = direction.startPoint
+        gradientLayer.endPoint = direction.endPoint
+        layer.addSublayer(gradientLayer)
+    }
+
+    /// SwifterSwift: Removes the applied blur effect from the `UIView`.
+    func removeBlur() {
+        subviews
+            .lazy
+            .compactMap { $0 as? UIVisualEffectView }
+            .filter { $0.effect is UIBlurEffect }
+            .forEach { $0.removeFromSuperview() }
+    }
+
     /// SwifterSwift: Add Visual Format constraints.
     ///
     /// - Parameters:
@@ -505,7 +578,8 @@ public extension UIView {
         }
     }
 
-    /// SwifterSwift: Add anchors from any side of the current view into the specified anchors and returns the newly added constraints.
+    /// SwifterSwift: Add anchors from any side of the current view into the specified anchors and returns the newly
+    /// added constraints.
     ///
     /// - Parameters:
     ///   - top: current view's top anchor will be anchored into the specified anchor.
@@ -560,7 +634,7 @@ public extension UIView {
             anchors.append(heightAnchor.constraint(equalToConstant: heightConstant))
         }
 
-        anchors.forEach { $0.isActive = true }
+        NSLayoutConstraint.activate(anchors)
 
         return anchors
     }

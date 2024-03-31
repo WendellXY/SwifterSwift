@@ -1,4 +1,4 @@
-// UIWindowExtensions.swift - Copyright 2020 SwifterSwift
+// UIWindowExtensions.swift - Copyright 2024 SwifterSwift
 
 #if canImport(UIKit) && os(iOS)
 import UIKit

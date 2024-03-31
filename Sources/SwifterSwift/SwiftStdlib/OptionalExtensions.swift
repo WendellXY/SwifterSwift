@@ -1,4 +1,4 @@
-// OptionalExtensions.swift - Copyright 2020 SwifterSwift
+// OptionalExtensions.swift - Copyright 2024 SwifterSwift
 
 // MARK: - Methods
 
@@ -29,7 +29,7 @@ public extension Optional {
     /// - Parameter error: The error to throw if the optional is `nil`.
     /// - Throws: The error passed in.
     /// - Returns: The value wrapped by the optional.
-    func unwrapped(or error: Error) throws -> Wrapped {
+    func unwrapped(or error: any Error) throws -> Wrapped {
         guard let wrapped = self else { throw error }
         return wrapped
     }
@@ -91,15 +91,12 @@ public extension Optional {
 public extension Optional where Wrapped: Collection {
     /// SwifterSwift: Check if optional is nil or empty collection.
     var isNilOrEmpty: Bool {
-        guard let collection = self else { return true }
-        return collection.isEmpty
+        return self?.isEmpty ?? true
     }
 
     /// SwifterSwift: Returns the collection only if it is not nil and not empty.
     var nonEmpty: Wrapped? {
-        guard let collection = self else { return nil }
-        guard !collection.isEmpty else { return nil }
-        return collection
+        return (self?.isEmpty ?? true) ? nil : self
     }
 }
 

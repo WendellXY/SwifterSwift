@@ -1,4 +1,4 @@
-// NSPredicateExtensions.swift - Copyright 2020 SwifterSwift
+// NSPredicateExtensions.swift - Copyright 2024 SwifterSwift
 
 #if canImport(Foundation)
 import Foundation

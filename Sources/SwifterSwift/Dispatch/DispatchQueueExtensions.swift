@@ -1,4 +1,4 @@
-// DispatchQueueExtensions.swift - Copyright 2020 SwifterSwift
+// DispatchQueueExtensions.swift - Copyright 2024 SwifterSwift
 
 #if canImport(Dispatch)
 import Dispatch

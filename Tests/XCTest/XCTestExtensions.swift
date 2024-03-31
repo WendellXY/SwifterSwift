@@ -1,16 +1,18 @@
-// XCTestExtensions.swift - Copyright 2022 SwifterSwift
+// XCTestExtensions.swift - Copyright 2024 SwifterSwift
 
 #if canImport(XCTest)
 import XCTest
 
 #if canImport(UIKit)
 import UIKit
+
 /// SwifterSwift: Color
 public typealias SFColor = UIColor
 #endif
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
+
 /// SwifterSwift: Color
 public typealias SFColor = NSColor
 #endif
@@ -20,15 +22,17 @@ public typealias SFColor = NSColor
 /// - Parameters:
 ///   - expression1: A `Color`.
 ///   - expression2: A `Color`.
-///   - accuracy: Describes the maximum difference between `expression1` and `expression2` for these values to be considered equal.
+///   - accuracy: Describes the maximum difference between `expression1` and `expression2` for these values to be
+/// considered equal.
 ///   - message: An optional description of the failure.
-///   - file: The file in which failure occurred. Defaults to the file name of the test case in which this function was called.
+///   - file: The file in which failure occurred. Defaults to the file name of the test case in which this function was
+/// called.
 ///   - line: The line number on which failure occurred. Defaults to the line number on which this function was called.
 public func XCTAssertEqual(_ expression1: @autoclosure () throws -> SFColor,
                            _ expression2: @autoclosure () throws -> SFColor,
                            accuracy: CGFloat,
                            _ message: @autoclosure () -> String = "",
-                           file: StaticString = #file,
+                           file: StaticString = #filePath,
                            line: UInt = #line) {
     var color1: SFColor!
     XCTAssertNoThrow(color1 = try expression1(), message(), file: file, line: line)
@@ -50,15 +54,17 @@ public func XCTAssertEqual(_ expression1: @autoclosure () throws -> SFColor,
 /// - Parameters:
 ///   - expression1: A `CGAffineTransform`.
 ///   - expression2: A `CGAffineTransform`.
-///   - accuracy: Describes the maximum difference between `expression1` and `expression2` for these values to be considered equal.
+///   - accuracy: Describes the maximum difference between `expression1` and `expression2` for these values to be
+/// considered equal.
 ///   - message: An optional description of the failure.
-///   - file: The file in which failure occurred. Defaults to the file name of the test case in which this function was called.
+///   - file: The file in which failure occurred. Defaults to the file name of the test case in which this function was
+/// called.
 ///   - line: The line number on which failure occurred. Defaults to the line number on which this function was called.
 public func XCTAssertEqual(_ expression1: @autoclosure () throws -> CGAffineTransform,
                            _ expression2: @autoclosure () throws -> CGAffineTransform,
                            accuracy: CGFloat,
                            _ message: @autoclosure () -> String = "",
-                           file: StaticString = #file,
+                           file: StaticString = #filePath,
                            line: UInt = #line) {
     var transform1: CGAffineTransform!
     XCTAssertNoThrow(transform1 = try expression1(), message(), file: file, line: line)

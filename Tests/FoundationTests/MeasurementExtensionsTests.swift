@@ -1,4 +1,4 @@
-// MeasurementExtensionsTests.swift - Copyright 2021 SwifterSwift
+// MeasurementExtensionsTests.swift - Copyright 2024 SwifterSwift
 
 @testable import SwifterSwift
 import XCTest
@@ -6,7 +6,6 @@ import XCTest
 #if canImport(Foundation)
 import Foundation
 
-@available(OSX 10.12, tvOS 10.0, watchOS 3.0, *)
 class MeasurementExtensionsTests: XCTestCase {
     private let angleValue = 2.28
 
@@ -44,6 +43,34 @@ class MeasurementExtensionsTests: XCTestCase {
         let angle = Measurement.revolutions(angleValue)
         XCTAssertEqual(angle.unit, UnitAngle.revolutions)
         XCTAssertEqual(angle.value, angleValue)
+    }
+
+    func testPlusEquals() {
+        var minutes = Measurement(value: 100, unit: UnitDuration.minutes)
+        minutes += Measurement(value: 200, unit: UnitDuration.minutes)
+
+        XCTAssertEqual(minutes.value, 300)
+    }
+
+    func testMinusEquals() {
+        var minutes = Measurement(value: 250, unit: UnitDuration.minutes)
+        minutes -= Measurement(value: 100, unit: UnitDuration.minutes)
+
+        XCTAssertEqual(minutes.value, 150)
+    }
+
+    func testMultiplyEquals() {
+        var minutes = Measurement(value: 250, unit: UnitDuration.minutes)
+        minutes *= 3
+
+        XCTAssertEqual(minutes.value, 750)
+    }
+
+    func testDivideEquals() {
+        var minutes = Measurement(value: 250, unit: UnitDuration.minutes)
+        minutes /= 5
+
+        XCTAssertEqual(minutes.value, 50)
     }
 }
 
